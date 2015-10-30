@@ -11,9 +11,13 @@ function atlas(options) {
   var step   = options.step || [32, 32]
   var size   = options.size || 16
   var chars  = options.chars || defaultChars
+  var color  = {
+    background: options.background,
+    foreground: options.foreground || '#fff',
+  }
 
-  if (typeof size === 'number') {
-    size = size + 'px'
+  if (typeof size !== 'number') {
+    size = parseFloat(size)
   }
 
   if (!Array.isArray(chars)) {
@@ -38,17 +42,24 @@ function atlas(options) {
 
   var ctx = canvas.getContext('2d')
 
-  ctx.fillStyle = '#000'
-  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  ctx.font = size + ' ' + family
+  ctx.font = size + 'px ' + family
+  ctx.fillStyle = color.foreground
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.fillStyle = '#fff'
 
-  var x = step[0] / 2
-  var y = step[1] / 2
+  var x = step[0] * 1.5
+  var y = step[1] * 0.5
   for (var i = 0; i < chars.length; i++) {
+    if (color.background) {
+      ctx.beginPath()
+      var w = ctx.measureText(chars[i]).width, h = size * 1.2
+      ctx.rect(x - w*0.5, y - h*0.4, w, h)
+      ctx.fillStyle = color.background
+      ctx.fill()
+      ctx.fillStyle = color.foreground
+    }
     ctx.fillText(chars[i], x, y)
     if ((x += step[0]) > shape[0] - step[0]/2) (x = step[0]/2), (y += step[1])
   }

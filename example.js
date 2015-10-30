@@ -12,6 +12,7 @@ atlas({
   , size: 21
   , shape: [canvas.width, canvas.height]
   , step: [51, 51]
+  , background: '#000'
 })
 
 fs.writeFile('atlas.png', canvas.toBuffer())
