@@ -19,12 +19,14 @@ the following options:
   Default: `[512, 512]`.
 * `step`: an array containing the `[width, height]` for each cell in pixels.
   Default: `[32, 32]`.
-* `size`: the font size to use when drawing the text. Default: `16px`
+* `size`: the font size to use when drawing the text. Default: `16`
 * `chars`: may be one of either:
   * a string containing all of the characters to use.
   * an array of all the characters to use.
   * an array specifying the `[start, end]` character codes to use. By default,
     this is `[32, 126]`.
+* `foreground`: the text color. Default: `#fff`
+* `background`: the background color of the text. Default `transparent`
 
 ## License
 

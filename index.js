@@ -20,6 +20,10 @@ function atlas(options) {
     size = parseFloat(size)
   }
 
+  if (color.background === 'transparent') {
+    color.background = null
+  }
+
   if (!Array.isArray(chars)) {
     chars = String(chars).split('')
   } else
