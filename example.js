@@ -4,13 +4,12 @@ var Canvas = require('canvas')
 var atlas = require('./')
 
 
-var canvas = new Canvas(512, 512)
+var canvas = new Canvas()
 
 atlas({
   canvas: canvas
   , family: 'Helvetica'
   , size: 21
-  , shape: [canvas.width, canvas.height]
   , step: [51, 51]
   , background: '#000'
 })

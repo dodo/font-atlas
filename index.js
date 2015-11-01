@@ -7,7 +7,7 @@ function atlas(options) {
 
   var canvas = options.canvas || document.createElement('canvas')
   var family = options.family || 'monospace'
-  var shape  = options.shape || [512, 512]
+  var shape  = options.shape
   var step   = options.step || [32, 32]
   var size   = options.size || 16
   var chars  = options.chars || defaultChars
@@ -40,7 +40,14 @@ function atlas(options) {
     chars = newchars
   }
 
-  shape = shape.slice()
+  if (Array.isArray(shape)) {
+    shape = shape.slice()
+  } else {
+    shape = step.map(function (d) {
+      return getPowerOfTwo(Math.ceil(Math.sqrt(chars.length + 1)) * d)
+    })
+  }
+
   canvas.width  = shape[0]
   canvas.height = shape[1]
 
@@ -69,4 +76,10 @@ function atlas(options) {
   }
 
   return canvas
+}
+
+function getPowerOfTwo(value, pow) {
+  pow = pow || 1
+  while (pow < value) pow *= 2
+  return pow
 }
