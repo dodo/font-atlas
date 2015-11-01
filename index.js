@@ -58,6 +58,7 @@ function atlas(options) {
   canvas.height = shape[1]
 
   var ctx = canvas.getContext('2d')
+  var img = ctx.getImageData(0, 0, step[0], step[1])
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -69,9 +70,12 @@ function atlas(options) {
   var x = step[0] * 1.5
   var y = step[1] * 0.5
   for (var i = 0; i < chars.length; i++) {
+    var w = ctx.measureText(chars[i]).width
+    img.data[i * 4]     = w   // r
+    img.data[i * 4 + 3] = 255 // a
     if (color.background) {
+      var h = size * 1.2
       ctx.beginPath()
-      var w = ctx.measureText(chars[i]).width, h = size * 1.2
       ctx.rect(x - w*0.5, y - h*0.4, w, h)
       ctx.fillStyle = color.background
       ctx.fill()
@@ -80,6 +84,8 @@ function atlas(options) {
     ctx.fillText(chars[i], x, y)
     if ((x += step[0]) > shape[0] - step[0]/2) (x = step[0]/2), (y += step[1])
   }
+
+  ctx.putImageData(img, 0, 0)
 
   return canvas
 }
