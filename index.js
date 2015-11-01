@@ -8,7 +8,7 @@ function atlas(options) {
   var canvas = options.canvas || document.createElement('canvas')
   var family = options.family || 'monospace'
   var shape  = options.shape
-  var step   = options.step || [32, 32]
+  var step   = options.step
   var size   = options.size || 16
   var chars  = options.chars || defaultChars
   var color  = {
@@ -38,6 +38,12 @@ function atlas(options) {
     }
 
     chars = newchars
+  }
+
+  if (Array.isArray(step)) {
+    step = step.slice()
+  } else {
+    step = [Math.round(size * 1.2), Math.round(size * 1.2)]
   }
 
   if (Array.isArray(shape)) {

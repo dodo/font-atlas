@@ -10,7 +10,6 @@ atlas({
   canvas: canvas
   , family: 'Helvetica'
   , size: 21
-  , step: [51, 51]
   , background: '#000'
 })
 
