@@ -5,6 +5,7 @@ module.exports = atlas
 function atlas(options) {
   options = options || {}
 
+  var info   = {}
   var canvas = options.canvas || document.createElement('canvas')
   var family = options.family || 'monospace'
   var shape  = options.shape
@@ -50,7 +51,7 @@ function atlas(options) {
     shape = shape.slice()
   } else {
     shape = step.map(function (d) {
-      return getPowerOfTwo(Math.ceil(Math.sqrt(chars.length + 1)) * d)
+      return getPowerOfTwo(Math.ceil(Math.sqrt(chars.length)) * d)
     })
   }
 
@@ -58,7 +59,6 @@ function atlas(options) {
   canvas.height = shape[1]
 
   var ctx = canvas.getContext('2d')
-  var img = ctx.getImageData(0, 0, step[0], step[1])
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -67,27 +67,32 @@ function atlas(options) {
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
 
-  var x = step[0] * 1.5
+  var x = step[0] * 0.5
   var y = step[1] * 0.5
-  for (var i = 0; i < chars.length; i++) {
-    var w = ctx.measureText(chars[i]).width
-    img.data[i * 4]     = w   // r
-    img.data[i * 4 + 3] = 255 // a
+  for (var char, glyph, i = 0; i < chars.length; i++) {
+    char = chars[i]
+    info[char] = glyph = {
+      w: ctx.measureText(char).width,
+      h: (size * 1.2),
+    }
+    glyph.x = (x - glyph.w * 0.5)
+    glyph.y = (y - glyph.h * 0.4)
     if (color.background) {
-      var h = size * 1.2
       ctx.beginPath()
-      ctx.rect(x - w*0.5, y - h*0.4, w, h)
+      ctx.rect(glyph.x, glyph.y, glyph.w, glyph.h)
       ctx.fillStyle = color.background
       ctx.fill()
       ctx.fillStyle = color.foreground
     }
-    ctx.fillText(chars[i], x, y)
+    ctx.fillText(char, x, y)
     if ((x += step[0]) > shape[0] - step[0]/2) (x = step[0]/2), (y += step[1])
   }
 
-  ctx.putImageData(img, 0, 0)
+  info.canvas = canvas
+  info.order = chars
+  info.length = chars.length
 
-  return canvas
+  return info
 }
 
 function getPowerOfTwo(value, pow) {

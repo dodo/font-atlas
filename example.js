@@ -6,11 +6,12 @@ var atlas = require('./')
 
 var canvas = new Canvas()
 
-atlas({
+var glyphs = atlas({
   canvas: canvas
   , family: 'Helvetica'
   , size: 21
-  , background: '#000'
+  , background: '#009ee8'
 })
 
+console.log(glyphs)
 fs.writeFile('atlas.png', canvas.toBuffer())
