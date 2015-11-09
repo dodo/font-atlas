@@ -65,7 +65,7 @@ function atlas(options) {
   ctx.font = size + 'px ' + family
   ctx.fillStyle = color.foreground
   ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
+  ctx.textBaseline = 'top'
 
   var x = step[0] * 0.5
   var y = step[1] * 0.5
@@ -84,7 +84,7 @@ function atlas(options) {
       ctx.fill()
       ctx.fillStyle = color.foreground
     }
-    ctx.fillText(char, x, y)
+    ctx.fillText(char, x, glyph.y)
     if ((x += step[0]) > shape[0] - step[0]/2) (x = step[0]/2), (y += step[1])
   }
 
