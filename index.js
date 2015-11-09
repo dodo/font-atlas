@@ -79,7 +79,7 @@ function atlas(options) {
     glyph.y = (y - glyph.h * 0.4)
     if (color.background) {
       ctx.beginPath()
-      ctx.rect(glyph.x, glyph.y, glyph.w, glyph.h)
+      ctx.rect(glyph.x-2, glyph.y-2, glyph.w+4, glyph.h+4)
       ctx.fillStyle = color.background
       ctx.fill()
       ctx.fillStyle = color.foreground
